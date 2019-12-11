@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-15"?>
+
+<launch>
+  <arg name="camera_topic" default="/zed/zed_node/rgb/image_rect_color"/>
+  <arg name="camera_info_topic" default="/zed/zed_node/rgb/camera_info"/>
+  <arg name="detected_objects_topic" default="detected_objects"/>
+
+  <param name="/yolo" value="true"/>
+
+  <!-- Launch object detector -->
+  <include file="$(find yolov3_pytorch_ros)/launch/detector.launch">
+    <arg name="detected_objects_topic" value="$(arg detected_objects_topic)"/>
+  </include>
+
+  <!-- Launch keypoint detector -->
+  <node name="keypoint_detector" pkg="object_keypoint_detector" type="keypoint_detector.py" required="true" output="screen">
+    <param name="image_topic"         value="$(arg camera_topic)"/>
+    <param name="model_type"          value="StackedHourglass"/>
+    <param name="num_keypoints_file"  value="$(find object_keypoint_detector)/keypoint_description/num_keypoints_gascan_pelican.txt"/>
+    <param name="model_path"          value="$(find object_keypoint_detector)/models/gascan_pelican_hourglass_70000.pt"/>
+  </node>
+  
+</launch>

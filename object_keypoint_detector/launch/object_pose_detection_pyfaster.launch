@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-15"?>
+
+<launch>
+  <arg name="camera_topic" default="/zed/zed_node/rgb/image_rect_color"/>
+  <arg name="camera_info_topic" default="/zed/zed_node/rgb/camera_info"/>
+  <arg name="detected_objects_topic" default="detected_objects"/>
+  
+  <param name="/yolo" value="false"/>
+
+  <!-- Launch object detector -->
+  <node name="faster_rcnn" pkg="py_faster_rcnn_ros" type="detector_manager.py" required="true" output="screen">
+    <remap from="detected_objects_in_image" to="$(arg detected_objects_topic)"/>
+    <param name="image_topic"               value="$(arg camera_topic)"/>
+    <param name="autostart"                 value="true"/>
+  </node>
+
+  <!-- Launch keypoint detector -->
+  <node name="keypoint_detector" pkg="object_keypoint_detector" type="keypoint_detector.py" required="true" output="screen">
+    <param name="image_topic"         value="$(arg camera_topic)"/>
+    <param name="model_type"          value="StackedHourglass"/>
+    <param name="num_keypoints_file"  value="$(find object_keypoint_detector)/keypoint_description/num_keypoints.txt"/>
+    <param name="model_path"          value="$(find object_keypoint_detector)/models/keypoints.pt"/>
+  </node>
+  
+</launch>

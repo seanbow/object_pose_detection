@@ -1,0 +1,5 @@
+*.pyc
+object_pose_detector/models/*
+*.t7
+*.jpg
+*.vscode

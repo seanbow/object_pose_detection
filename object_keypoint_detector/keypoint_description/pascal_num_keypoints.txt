@@ -1,0 +1,10 @@
+areoplane 8
+bicycle 11
+boat 7
+bottle 7
+bus 12
+car 12
+chair 10
+sofa 10
+train 17
+tvmonitor 8

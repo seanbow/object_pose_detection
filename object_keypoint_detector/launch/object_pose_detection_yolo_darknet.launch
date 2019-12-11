@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-15"?>
+
+<launch>
+  <arg name="camera_topic" default="/zed/zed_node/rgb/image_rect_color"/>
+  <arg name="camera_info_topic" default="/zed/zed_node/rgb/camera_info"/>
+  <arg name="detected_objects_topic" default="/darknet_ros/darknet_ros/bounding_boxes"/>
+  <arg name="detected_objects_topic_republished" default="bounding_boxes_republished"/>
+
+  <param name="/yolo" value="true"/>
+
+  <!-- Launch object detector -->
+  <!-- Make sure to: 1) configure your launch file -->
+  <!--               2) change the topic name for your camera in ros.yaml -->
+  <!--               3) change enable_opencv to true and enable_console_output to false to suppress all printing -->
+  <!--               4) use relative namespaces in ros.yaml -->
+  <include file="$(find darknet_ros)/launch/yolo_v3_voc_indoor.launch"/>
+
+  <!-- Launch detection republisher -->
+  <node pkg="object_keypoint_detector" type="detection_republisher.py" name="detection_republisher" output="screen">
+    <param name="detection_topic"						      value="$(arg detected_objects_topic)"/>
+		<param name="detection_republished_topic"			value="$(arg detected_objects_topic_republished)"/>
+	</node>
+
+  <!-- Launch keypoint detector -->
+  <!-- You can choose between keypoint_detector.py if you have a PyTorch built model or keypoint_detector_torch.py if you are converting from Torch -->
+  <node name="keypoint_detector" pkg="object_keypoint_detector" type="keypoint_detector_torch.py" required="true" output="screen">
+    <remap from="detected_objects"    to="$(arg detected_objects_topic_republished)"/>
+    <param name="image_topic"         value="$(arg camera_topic)"/>
+    <param name="model_type"          value="StackedHourglass"/>
+    <param name="num_keypoints_file"  value="$(find object_keypoint_detector)/keypoint_description/num_keypoints_indoor.txt"/>
+    <param name="model_path"          value="$(find object_keypoint_detector)/models/model_20_multiple.t7"/>
+  </node>
+  
+</launch>

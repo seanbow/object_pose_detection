@@ -1,0 +1,6 @@
+gascan 10
+pelican 11
+chair 10
+tableclosed 8
+ladder 7
+cart 8
