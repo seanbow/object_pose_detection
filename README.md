@@ -10,7 +10,7 @@ This package runs the full pipeline for object detection (based on `darknet_ros`
 ## Dependencies
 The [semantic_slam](semantic_slam) package requires the following external dependencies:
 1. `libpng++-dev`
-1. Google's `ceres-solver` library, installed from source (see http://ceres-solver.org/) or at least a more recent version that is included in Ubuntu's package management
+1. Google's `ceres-solver` library, installed from source (see http://ceres-solver.org/) or at least a more recent version than is included in Ubuntu's package management
 1. [GTSAM](https://github.com/borglab/gtsam)
 
 ## Usage
