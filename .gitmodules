@@ -1,0 +1,9 @@
+[submodule "semantic_slam"]
+	path = semantic_slam
+	url = git@github.com:seanbow/semantic_slam.git
+[submodule "darknet_ros"]
+	path = darknet_ros
+	url = git@github.com:seanbow/darknet_ros.git
+[submodule "rviz_plugin_covariance"]
+	path = rviz_plugin_covariance
+	url = https://github.com/laas/rviz_plugin_covariance.git
