@@ -18,5 +18,5 @@ Depending on whether you want to use YOLO with Darknet, YOLO with PyTorch or PyF
 1. Specify the path to your `num_keypoints_file` in the launch file.
 1. Specify the path to your model in the launch file (parameter `model_path`).
 1. Define your model type as `StackedHourglass` or `CPN50` in the launch file (parameter `model_type`).
-1. Copy the files for the classes you used in your `num_keypoints_file` (and in your keypoint detection model) from the `objects_all` [directory](semslam/semslam/models/objects_all) to the `objects` [directory](semslam/semslam/models/objects).
-1. Then, modify and run your [launch](semslam/semslam/launch) file from the [semslam](semslam/semslam) package.
+1. Copy the files for the classes you used in your `num_keypoints_file` (and in your keypoint detection model) from the `objects_all` [directory](semantic_slam/models/objects_all) to the `objects` [directory](semantic_slam/models/objects).
+1. Then, modify and run your [launch](semslam/semslam/launch) file from the [semantic_slam](semantic_slam) package.
