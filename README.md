@@ -9,7 +9,7 @@ This package runs the full pipeline for object detection (based on `darknet_ros`
 
 ## Installing dependencies
 1. Install [ROS](https://www.ros.org/) -- only tested thus far on ROS Melodic
-1. `sudo apt install libgoogle-glog-dev libpng++-dev`
+1. `sudo apt install libgoogle-glog-dev libpng++-dev ros-melodic-rosfmt`
 1. Build and install Google's `ceres-solver` from source: https://github.com/ceres-solver/ceres-solver
 1. Build and install GTSAM: https://github.com/borglab/gtsam. Make sure GTSAM_USE_SYSTEM_EIGEN is set to true
 
