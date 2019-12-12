@@ -3,7 +3,7 @@ project(viso_pose)
 
 # use sse3 instruction set
 # SET(CMAKE_CXX_FLAGS "-msse3 -std=c++11 -g")
-set(CMAKE_CXX_FLAGS "-O3 -msse3 -std=c++11 -g")
+set(CMAKE_CXX_FLAGS "-O3 -std=c++11 -g")
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
