@@ -1,5 +1,6 @@
 *.pyc
 object_keypoint_detector/models/*
 *.t7
+*.pt
 *.jpg
 *.vscode
