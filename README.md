@@ -14,9 +14,9 @@ This package runs the full pipeline for object detection (based on `darknet_ros`
 1. Build and install GTSAM: https://github.com/borglab/gtsam. Make sure GTSAM_USE_SYSTEM_EIGEN is set to true
 
 ## Usage
-Depending on whether you want to use YOLO with Darknet, YOLO with PyTorch or PyFaster, modify [this](object_keypoint_detector/launch/object_pose_detection_yolo_darknet.launch), [this](object_keypoint_detector/launch/object_pose_detection_yolo_pytorch.launch) or [this](object_keypoint_detector/launch/object_pose_detection_pyfaster.launch) launch file, and:
-1. Specify the path to your `num_keypoints_file` in the launch file.
-1. Specify the path to your model in the launch file (parameter `model_path`).
-1. Define your model type as `StackedHourglass` or `CPN50` in the launch file (parameter `model_type`).
+1. Modify [this](semantic_slam/launch/semantic_slam.launch) launch file to:
+    1. specify the path to your `num_keypoints_file` in the launch file.
+    1. specify the path to your model in the launch file (parameter `model_path`).
+    1. define your model type as `StackedHourglass` or `CPN50` in the launch file (parameter `model_type`).
 1. Copy the files for the classes you used in your `num_keypoints_file` (and in your keypoint detection model) from the `objects_all` [directory](semantic_slam/models/objects_all) to the `objects` [directory](semantic_slam/models/objects).
-1. Then, modify and run your [launch](semslam/semslam/launch) file from the [semantic_slam](semantic_slam) package.
+1. Run the launch file.
