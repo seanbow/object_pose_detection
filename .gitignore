@@ -1,5 +1,6 @@
 *.pyc
-object_pose_detector/models/*
+object_keypoint_detector/models/*
 *.t7
+*.pt
 *.jpg
 *.vscode
