@@ -7,11 +7,11 @@ This package runs the full pipeline for object detection (based on `darknet_ros`
 1. The [bag_extractor](bag_extractor) package is used to save data to timestamped images and `.npz` files that contain groundtruth poses, in order to add additional data to the training process.
 1. The [object_pose_interface_msgs](object_pose_interface_msgs) package contains the necessary ROS interface messages.
 
-## Dependencies
-The [semantic_slam](semantic_slam) package requires the following external dependencies:
-1. `libpng++-dev`
-1. Google's `ceres-solver` library, installed from source (see http://ceres-solver.org/) or at least a more recent version than is included in Ubuntu's package management
-1. [GTSAM](https://github.com/borglab/gtsam)
+## Installing dependencies
+1. Install [ROS](https://www.ros.org/) -- only tested thus far on ROS Melodic
+1. `sudo apt install libgoogle-glog-dev libpng++-dev ros-melodic-rosfmt`
+1. Build and install Google's `ceres-solver` from source: https://github.com/ceres-solver/ceres-solver
+1. Build and install GTSAM: https://github.com/borglab/gtsam. Make sure GTSAM_USE_SYSTEM_EIGEN is set to true
 
 ## Usage
 Depending on whether you want to use YOLO with Darknet, YOLO with PyTorch or PyFaster, modify [this](object_keypoint_detector/launch/object_pose_detection_yolo_darknet.launch), [this](object_keypoint_detector/launch/object_pose_detection_yolo_pytorch.launch) or [this](object_keypoint_detector/launch/object_pose_detection_pyfaster.launch) launch file, and:
