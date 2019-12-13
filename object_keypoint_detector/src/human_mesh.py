@@ -174,11 +174,12 @@ class KeypointDetectorNode(object):
 
             vertices_translated = pred_vertices[i, :, :] + camera_translation[i]
             marker_msg = Marker()
-            marker_msg.header.frame_id = "map"
+            marker_msg.header.frame_id = "zed_left_camera_optical_frame"
             marker_msg.type = Marker.TRIANGLE_LIST
             marker_msg.action = Marker.ADD
             marker_msg.ns = "human_pose_demo"
             marker_msg.id = i
+            marker_msg.lifetime = rospy.Time(2.0)
             marker_msg.scale.x = 1
             marker_msg.scale.y = 1
             marker_msg.scale.z = 1
