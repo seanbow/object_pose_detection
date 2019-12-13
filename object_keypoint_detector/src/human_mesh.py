@@ -69,7 +69,7 @@ class KeypointDetectorNode(object):
         checkpoint = torch.load(model_path)
         self.model.cuda()
         self.model.load_state_dict(checkpoint['model'], strict=False)
-        self.smpl = SMPL(join(model_base_path, 'smpl'), batch_size=1, create_transl=False).cuda()
+        self.smpl = SMPL(model_base_path, batch_size=1, create_transl=False).cuda()
         self.model.eval()
         self.renderer = Renderer()
         rospy.loginfo("Loaded model")
