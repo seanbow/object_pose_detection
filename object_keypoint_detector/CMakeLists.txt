@@ -28,6 +28,8 @@ find_package(catkin REQUIRED COMPONENTS
   image_transport
   image_geometry
   object_pose_interface_msgs
+  visualization_msgs
+  geometry_msgs
   #pytorch
   )
 
@@ -71,7 +73,7 @@ link_libraries(${catkin_LIBRARIES} ${PCL_LIBRARIES})
 catkin_package(
 
   LIBRARIES object_keypoint_detector
-  CATKIN_DEPENDS rospy std_msgs message_runtime cv_bridge pcl_ros image_transport image_geometry object_pose_interface_msgs
+  CATKIN_DEPENDS rospy std_msgs message_runtime cv_bridge pcl_ros image_transport image_geometry object_pose_interface_msgs visualization_msgs geometry_msgs
   DEPENDS #Eigen3 boost opencv PCL libqhull libvtk libvtk-qt
 
 )
@@ -100,6 +102,7 @@ include_directories(
 install(PROGRAMS
   src/keypoint_detector.py
   src/keypoint_detector_torch.py
+  src/human_mesh.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

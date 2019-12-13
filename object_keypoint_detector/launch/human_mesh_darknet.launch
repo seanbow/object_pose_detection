@@ -3,7 +3,7 @@
 <launch>
   <arg name="camera_topic" default="/zed/zed_node/rgb/image_rect_color"/>
   <arg name="camera_info_topic" default="/zed/zed_node/rgb/camera_info"/>
-  <arg name="detected_objects_topic" default="/darknet_ros/darknet_ros/bounding_boxes"/>
+  <arg name="detected_objects_topic" default="/darknet_ros/bounding_boxes"/>
   <arg name="detected_objects_topic_republished" default="bounding_boxes_republished"/>
 
   <param name="/yolo" value="true"/>

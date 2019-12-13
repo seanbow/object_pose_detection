@@ -20,6 +20,8 @@ from darknet_ros_msgs.msg import BoundingBoxes
 from object_pose_interface_msgs.msg import ira_dets
 from object_pose_interface_msgs.msg import KeypointDetection3D
 from object_pose_interface_msgs.msg import KeypointDetections3D
+from visualization_msgs.msg import Marker, MarkerArray
+from geometry_msgs.msg import Point
 
 from utils.renderer import Renderer
 from models import hmr, SMPL
@@ -38,6 +40,8 @@ class KeypointDetectorNode(object):
         self.mesh_debug = rospy.Publisher('pose_estimator/mesh_debug', Image, queue_size=1)
 
         self.img_keypoints = rospy.Publisher('pose_estimator/img_keypoints', Image, queue_size=1)
+
+        self.mesh_rviz = rospy.Publisher('pose_estimator/meshes', MarkerArray, queue_size=1)
 
         self.device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
         rospy.loginfo("Using %s", self.device)
@@ -82,6 +86,16 @@ class KeypointDetectorNode(object):
         combined_sub.registerCallback(self.mesh_reconstruct)
         rospy.loginfo("Spinning")
         rospy.spin()
+    
+
+    def vert_faces_to_triangle_list(self, verts, faces):
+        triangle_pts = verts[faces.ravel(),:]
+        triangle_list = []
+
+        for pt in triangle_pts:
+            triangle_list.append(Point(*pt))
+
+        return triangle_list
 
 
     def mesh_reconstruct(self, detections_msg, image_msg):
@@ -148,6 +162,7 @@ class KeypointDetectorNode(object):
             self.mesh_debug.publish(self.bridge.cv2_to_imgmsg((255.0*img_mesh_published).astype(np.uint8), encoding="rgb8"))
 
         keypoint_detections = KeypointDetections3D()
+        markers_msg = MarkerArray()
         keypoint_detections.header = detections_msg.header
 
         for i, detection in enumerate(bounding_boxes_detected):
@@ -156,6 +171,24 @@ class KeypointDetectorNode(object):
             detection_msg.obj_name = obj_name
             predictions = pred_joints[i, :, :] + camera_translation_local[i]
             predictions_publish = pred_joints[i, :, :] + camera_translation[i]
+
+            vertices_translated = pred_vertices[i, :, :] + camera_translation[i]
+            marker_msg = Marker()
+            marker_msg.header.frame_id = "map"
+            marker_msg.type = Marker.TRIANGLE_LIST
+            marker_msg.action = Marker.ADD
+            marker_msg.ns = "human_pose_demo"
+            marker_msg.id = i
+            marker_msg.scale.x = 1
+            marker_msg.scale.y = 1
+            marker_msg.scale.z = 1
+            marker_msg.pose.orientation.w = 1
+            marker_msg.color.r = 0.65098039
+            marker_msg.color.g = 0.74117647
+            marker_msg.color.b = 0.85882353
+            marker_msg.color.a = 1
+            marker_msg.points = self.vert_faces_to_triangle_list(vertices_translated, self.smpl.faces)
+            markers_msg.markers.append(marker_msg)
                         
             for joint_i in predictions:
                 coords = CAMERA_FOCAL_LENGTH_LOCAL*joint_i[:2]/joint_i[2] + self.img_size/2.0
@@ -173,6 +206,7 @@ class KeypointDetectorNode(object):
             keypoint_detections.detections.append(detection_msg)
 
         self.keypoints_pub.publish(keypoint_detections)
+        self.mesh_rviz.publish(markers_msg)
 
         image_msg = self.bridge.cv2_to_imgmsg(self.img_published, encoding="rgb8")
         self.img_keypoints.publish(image_msg)
