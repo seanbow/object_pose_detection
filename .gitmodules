@@ -2,10 +2,12 @@
 	path = semantic_slam
 	url = ../semantic_slam.git
 	branch = master
+	update = merge
 [submodule "darknet_ros"]
 	path = darknet_ros
 	url = ../darknet_ros.git
 	branch = master
+	update = merge
 [submodule "rviz_plugin_covariance"]
 	path = rviz_plugin_covariance
 	url = https://github.com/laas/rviz_plugin_covariance.git
