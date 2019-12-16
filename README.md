@@ -8,6 +8,9 @@ This package runs the full pipeline for object detection (based on `darknet_ros`
 1. The [object_pose_interface_msgs](object_pose_interface_msgs) package contains the necessary ROS interface messages.
 
 ## Installing dependencies
+Scripts to install all required dependencies are available at https://github.com/seanbow/xavier-setup-scripts (contrary to the name, these scripts function correctly both on desktop- and nVidia xavier- based platforms).
+
+Alternatively,
 1. Install [ROS](https://www.ros.org/) -- only tested thus far on ROS Melodic
 1. `sudo apt install libgoogle-glog-dev libpng++-dev ros-melodic-rosfmt`
 1. Build and install Google's `ceres-solver` from source: https://github.com/ceres-solver/ceres-solver
