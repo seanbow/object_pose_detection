@@ -18,7 +18,9 @@ add_message_files(
   ira_det.msg
   ira_dets.msg
   KeypointDetection.msg
+  KeypointDetection3D.msg
   KeypointDetections.msg
+  KeypointDetections3D.msg
   ObjectClass.msg
   ObjectClassArray.msg
   SemanticMapObject.msg

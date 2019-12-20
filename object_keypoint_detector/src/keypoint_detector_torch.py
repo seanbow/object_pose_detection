@@ -48,7 +48,7 @@ class KeypointDetectorNode(object):
         self.img_size = rospy.get_param('~img_size', 256)
         self.detection_thresh = rospy.get_param('~detection_threshold', 0.1)
         self.yolo = rospy.get_param('/yolo')
-        self.activation_threshold = rospy.get_param('~keypoint_activation_threshold')
+        self.activation_threshold = rospy.get_param('~keypoint_activation_threshold', 0.1)
         
         if rospy.has_param('~image_topic'):
             image_topic_set = rospy.get_param('~image_topic', '/camera/rgb/image_raw')

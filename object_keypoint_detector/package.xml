@@ -29,6 +29,8 @@
   <build_depend>google-glog</build_depend>
   <build_depend>lmdb</build_depend>
   <build_depend>object_pose_interface_msgs</build_depend>
+  <build_depend>visualization_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
   <run_depend>cmake_modules</run_depend> 
   <run_depend>image_transport</run_depend>
   <run_depend>image_geometry</run_depend>
@@ -37,6 +39,8 @@
   <run_depend>std_msgs</run_depend>
   <run_depend>sensor_msgs</run_depend>
   <run_depend>object_pose_interface_msgs</run_depend>
+  <run_depend>visualization_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
   <run_depend>message_runtime</run_depend>
   <run_depend>py_faster_rcnn_ros</run_depend>
   <run_depend>pytorch</run_depend>
