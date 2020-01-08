@@ -14,6 +14,7 @@ Alternatively,
 1. Install [ROS](https://www.ros.org/) -- only tested thus far on ROS Melodic
 1. `sudo apt install libgoogle-glog-dev libpng++-dev ros-melodic-rosfmt`
 1. Build and install Google's `ceres-solver` from source: https://github.com/ceres-solver/ceres-solver
+    - Be sure to set `-DCMAKE_C_FLAGS="-march=native" -DCMAKE_CXX_FLAGS="-march=native"` when calling CMake or else you may run into memory alignment related issues and crashes
 1. Build and install GTSAM: https://github.com/borglab/gtsam. Make sure GTSAM_USE_SYSTEM_EIGEN and GTSAM_TYPEDEF_POINTS_TO_VECTORS are set to true.
 
 ## Usage
