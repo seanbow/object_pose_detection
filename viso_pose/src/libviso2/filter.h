@@ -22,8 +22,12 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 #ifndef __FILTER_H__
 #define __FILTER_H__
 
-#include <emmintrin.h>
-#include <pmmintrin.h>
+#ifdef __ARM_NEON
+  #include "sse_to_neon.h"
+#else
+  #include <pmmintrin.h>
+  #include <emmintrin.h>
+#endif
 
 // define fixed-width datatypes for Visual Studio projects
 #if defined(_MSC_VER) && (_MSC_VER < 1600)

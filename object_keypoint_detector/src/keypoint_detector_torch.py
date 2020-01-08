@@ -68,7 +68,7 @@ class KeypointDetectorNode(object):
         num_keypoints_file_path = rospy.get_param('~num_keypoints_file', join(model_base_path, 'num_keypoints_pascal.txt')) # For PASCAL: num_keypoints_pascal.txt, For gascan/pelican/cabinet: num_keypoints.txt
         model_path = rospy.get_param('~model_path', join(model_base_path, "pascal.pt")) # For PASCAL: pascal.pt, For gascan/pelican/cabinet: keypoints.pt, For gascan CPN: cpn_gascan.pt
 
-        self.target_framerate = rospy.get_param('~target_framerate', 5)
+        # self.target_framerate = rospy.get_param('~target_framerate', 5)
 
         self.keypoints_indices = dict()
         start_index = 0
@@ -93,7 +93,7 @@ class KeypointDetectorNode(object):
             detections_sub = message_filters.Subscriber('detected_objects', ira_dets)
 
         image_sub = message_filters.Subscriber(self.image_topic, Image)
-        combined_sub = message_filters.TimeSynchronizer([detections_sub, image_sub], 100)
+        combined_sub = message_filters.TimeSynchronizer([detections_sub, image_sub], 500)
         combined_sub.registerCallback(self.detect_keypoints)
         rospy.loginfo("Spinning")
         rospy.spin()
@@ -359,15 +359,15 @@ class KeypointDetectorNode(object):
             
             
         # Control frame rate by skipping frames
-        self.last_image_time = self.this_image_time
-        self.this_image_time = detections_msg.header.stamp
+        # self.last_image_time = self.this_image_time
+        # self.this_image_time = detections_msg.header.stamp
 
-        duration = self.this_image_time - self.last_image_time
-        framerate = 1.0 / duration.to_sec()
+        # duration = self.this_image_time - self.last_image_time
+        # framerate = 1.0 / duration.to_sec()
 
-        target_duration = rospy.Duration(1 / self.target_framerate)
-        if duration < target_duration:
-            return
+        # target_duration = rospy.Duration(1 / self.target_framerate)
+        # if duration < target_duration:
+        #     return
 
         # if framerate <= self.target_framerate:
         #     rospy.logwarn("[keypoint_detector] Current framerate: %.2f  Target: %.2f --> dropping frame...",

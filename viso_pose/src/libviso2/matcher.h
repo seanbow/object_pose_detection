@@ -30,15 +30,10 @@ Street, Fifth Floor, Boston, MA 02110-1301, USA
 #include <algorithm>
 #include <vector>
 
-#ifdef __arm__
-
-#include <pmmintrin.h>
-#include "sse_to_neon.h"
-
+#ifdef __ARM_NEON
+  #include "sse_to_neon.h"
 #else
-
-#include <emmintrin.h>
-
+  #include <emmintrin.h>
 #endif
 
 #include "matrix.h"
