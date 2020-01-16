@@ -24,7 +24,8 @@ Alternatively,
     1. specify the path to your model in the launch file (parameter `model_path`).
     1. define your model type as `StackedHourglass` or `CPN50` in the launch file (parameter `model_type`).
 1. Copy the files for the classes you used in your `num_keypoints_file` (and in your keypoint detection model) from the `objects_all` [directory](https://github.com/seanbow/semantic_slam/tree/master/models/objects_all) to the `objects` [directory](https://github.com/seanbow/semantic_slam/tree/master/models/objects).
-1. Run the launch file.
+1. Except for the semantic SLAM launch file, other parameters are exposed in the files included in [this](https://github.com/seanbow/darknet_ros/tree/master/darknet_ros/config) folder for object detection, and in [this](https://github.com/seanbow/semantic_slam/tree/master/param) folder for semantic SLAM. **Note**: In order to change the tracking rate, modify both `tracking_framerate` [here](https://github.com/seanbow/semantic_slam/blob/master/param/zed.yaml) and `hz` [here](https://github.com/seanbow/darknet_ros/blob/master/darknet_ros/config/zed.yaml).
+1. Run the semantic SLAM launch file.
 
 ### Human mesh estimation
 1. Copy your models in the `models` [directory](object_keypoint_detector/models). You will need a `.pt` and a `.pkl` model.
