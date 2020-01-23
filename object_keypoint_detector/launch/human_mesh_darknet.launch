@@ -31,7 +31,7 @@
     <remap from="detected_objects"    to="$(arg detected_objects_topic)"/>
     <param name="image_topic"         value="$(arg stereo_camera_rgb_republished)"/>
     <param name="model_path"          value="$(find object_keypoint_detector)/models/model_checkpoint.pt"/>
-    <param name="debug"               value="true"/>
+    <param name="debug"               value="false"/>
   </node>
 
   <!-- <node pkg="rviz" type="rviz" name="rviz" args="-d $(find object_keypoint_detector)/rviz/humans.rviz" /> -->
