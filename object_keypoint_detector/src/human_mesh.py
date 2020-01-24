@@ -23,7 +23,6 @@ from object_pose_interface_msgs.msg import KeypointDetections3D
 from visualization_msgs.msg import Marker, MarkerArray
 from geometry_msgs.msg import Point
 
-from utils.renderer import Renderer
 from models import hmr, SMPL
 
 CAMERA_FOCAL_LENGTH_LOCAL = 5000.
@@ -71,7 +70,6 @@ class KeypointDetectorNode(object):
         self.model.load_state_dict(checkpoint['model'], strict=False)
         self.smpl = SMPL(model_base_path, batch_size=1, create_transl=False).cuda()
         self.model.eval()
-        self.renderer = Renderer()
         rospy.loginfo("Loaded model")
 
         self.bridge = CvBridge()
@@ -158,6 +156,8 @@ class KeypointDetectorNode(object):
         pred_vertices, pred_joints, camera_translation, camera_translation_local = self.get_keypoints(patches, bounds)
 
         if (self.debug):
+            from utils.renderer import Renderer
+            self.renderer = Renderer()
             img_mesh_published = self.renderer.render(pred_vertices[0], self.smpl.faces, camera_t=camera_translation_local[0], img=np.transpose(patches[0], (1,2,0))*[0.229, 0.224, 0.225]+[0.485, 0.456, 0.406], use_bg=True, body_color='light_blue')
             self.mesh_debug.publish(self.bridge.cv2_to_imgmsg((255.0*img_mesh_published).astype(np.uint8), encoding="rgb8"))
 
@@ -188,8 +188,8 @@ class KeypointDetectorNode(object):
             marker_msg.color.g = 0.74117647
             marker_msg.color.b = 0.85882353
             marker_msg.color.a = 1
-            marker_msg.points = self.vert_faces_to_triangle_list(vertices_translated, self.smpl.faces)
-            markers_msg.markers.append(marker_msg)
+            # marker_msg.points = self.vert_faces_to_triangle_list(vertices_translated, self.smpl.faces)
+            # markers_msg.markers.append(marker_msg)
                         
             for joint_i in predictions:
                 coords = CAMERA_FOCAL_LENGTH_LOCAL*joint_i[:2]/joint_i[2] + self.img_size/2.0
