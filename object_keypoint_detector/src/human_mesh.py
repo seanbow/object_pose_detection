@@ -188,8 +188,8 @@ class KeypointDetectorNode(object):
             marker_msg.color.g = 0.74117647
             marker_msg.color.b = 0.85882353
             marker_msg.color.a = 1
-            # marker_msg.points = self.vert_faces_to_triangle_list(vertices_translated, self.smpl.faces)
-            # markers_msg.markers.append(marker_msg)
+            marker_msg.points = self.vert_faces_to_triangle_list(vertices_translated, self.smpl.faces)
+            markers_msg.markers.append(marker_msg)
                         
             for joint_i in predictions:
                 coords = CAMERA_FOCAL_LENGTH_LOCAL*joint_i[:2]/joint_i[2] + self.img_size/2.0
