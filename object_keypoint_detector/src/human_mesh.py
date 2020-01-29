@@ -188,8 +188,8 @@ class KeypointDetectorNode(object):
             marker_msg.color.g = 0.74117647
             marker_msg.color.b = 0.85882353
             marker_msg.color.a = 1
-            marker_msg.points = self.vert_faces_to_triangle_list(vertices_translated, self.smpl.faces)
-            markers_msg.markers.append(marker_msg)
+            # marker_msg.points = self.vert_faces_to_triangle_list(vertices_translated, self.smpl.faces)
+            # markers_msg.markers.append(marker_msg)
                         
             for joint_i in predictions:
                 coords = CAMERA_FOCAL_LENGTH_LOCAL*joint_i[:2]/joint_i[2] + self.img_size/2.0
@@ -313,9 +313,12 @@ class KeypointDetectorNode(object):
         bounds_tensor = bounds_tensor.to(self.device, dtype=torch.float32)
         with torch.no_grad():
             pred_rotmat, pred_betas, pred_camera = self.model(patches_tensor)
+            pred_betas[:] = 0.
+            pred_betas[0] = 1.
             pred_output = self.smpl(betas=pred_betas, body_pose=pred_rotmat[:,1:], global_orient=pred_rotmat[:,0].unsqueeze(1), pose2rot=False)
             pred_vertices = pred_output.vertices
             pred_joints = pred_output.joints
+            pred_joints = pred_joints[:,:24]
             
             # Figure out translations
             # One local translation, for each bounding box
