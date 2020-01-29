@@ -31,12 +31,13 @@ class PathPublisher():
 
 		self.pub_path = rospy.Publisher("/path", Path, queue_size=1)
 		self.pub_goal = rospy.Publisher("/goal_point", PointStamped, queue_size=1)
-		self.sub_odom_vicon = rospy.Subscriber("/pose_tracking/semslam/robot_odom", Odometry, self.vicon_odom)
+		self.sub_odom_vicon = rospy.Subscriber("/vicon/turtlebot/odom", Odometry, self.vicon_odom)
 
 		rospy.spin()
 
 	def vicon_odom(self, data):
 		self.path.header = data.header
+		self.path.header.frame_id = 'map'
 	
 		if self.flag:
 			self.offset_x = data.pose.pose.position.x
@@ -60,8 +61,8 @@ class PathPublisher():
 		goal_point = PointStamped()
 		goal_point.header.stamp = data.header.stamp
 		goal_point.header.frame_id = 'map'
-		goal_point.point.x = 6.513
-		goal_point.point.y = -0.029
+		goal_point.point.x = 0.0
+		goal_point.point.y = 0.0
 		self.pub_goal.publish(goal_point)
 
 		return
