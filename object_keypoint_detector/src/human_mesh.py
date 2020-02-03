@@ -201,15 +201,12 @@ class KeypointDetectorNode(object):
                 x_max = int(floor(detection.bbox.points[2].x))
                 y_max = int(floor(detection.bbox.points[2].y))
             
-            # Assume we publish
-            publish = True
+            # Assume we don't publish - CHANGE THIS TO TRUE FOR OFFLINE PROCESSING
+            publish = False
 
             # Check bounding box
             if (bounds[i][0] < 1) or (bounds[i][1] > 1279):
                 publish = False
-
-            # How far (in pixels) from the bbox can a joint lie
-            tol = 10
 
             # Which joints we want to be visible
             visible_set = [0,1,2,3,4,5,6,7,8,9,10,11,18,19,20,21,22,23]
@@ -240,7 +237,7 @@ class KeypointDetectorNode(object):
                 marker_msg.points = self.vert_faces_to_triangle_list(vertices_translated, self.smpl.faces)
                 markers_msg.markers.append(marker_msg)
                                                     
-                keypoint_detections.detections.append(detection_msg)
+            keypoint_detections.detections.append(detection_msg)
 
         self.keypoints_pub.publish(keypoint_detections)
         self.mesh_rviz.publish(markers_msg)
