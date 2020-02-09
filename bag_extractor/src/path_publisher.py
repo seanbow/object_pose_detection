@@ -61,8 +61,8 @@ class PathPublisher():
 		goal_point = PointStamped()
 		goal_point.header.stamp = data.header.stamp
 		goal_point.header.frame_id = 'map'
-		goal_point.point.x = 0.0
-		goal_point.point.y = 0.0
+		goal_point.point.x = 7.23
+		goal_point.point.y = 2.819
 		self.pub_goal.publish(goal_point)
 
 		return
