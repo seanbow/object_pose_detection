@@ -24,6 +24,8 @@ find_package(catkin REQUIRED COMPONENTS
 #find_package(GTSAM REQUIRED)
 find_package(Eigen3 REQUIRED)
 
+find_package(OpenCV REQUIRED)
+
 
 #include_directories(${GTSAM_INCLUDE_DIR})
 
@@ -143,7 +145,7 @@ add_library(libviso2
 add_library(VISOPose
   src/VISOPose.cpp
 )
-target_link_libraries(VISOPose libviso2 ${catkin_LIBRARIES}) # gtsam)
+target_link_libraries(VISOPose libviso2 ${catkin_LIBRARIES} ${OpenCV_LIBRARIES}) # gtsam)
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
