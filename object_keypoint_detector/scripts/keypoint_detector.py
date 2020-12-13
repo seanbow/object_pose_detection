@@ -78,7 +78,7 @@ class KeypointDetectorNode(object):
                     self.keypoints_indices[split[0]] = \
                         (start_index, start_index + int(split[1]))
                     start_index += int(split[1])
-        print "Keypoint indices:", self.keypoints_indices
+        print(f"Keypoint indices: {self.keypoints_indices}")
 
 
         model_type = rospy.get_param('~model_type', 'small')
@@ -131,7 +131,7 @@ class KeypointDetectorNode(object):
             self.img_published = np.zeros(original_img_size).astype(np.uint8)
 
 
-        before_time = time.clock()
+        before_time = time.perf_counter()
         try:
             image = self.bridge.imgmsg_to_cv2(image_msg, "rgb8")
         except CvBridgeError as error:
@@ -221,7 +221,7 @@ class KeypointDetectorNode(object):
         image_msg = self.bridge.cv2_to_imgmsg(self.img_published, encoding="rgb8")
         self.heatmap_pub.publish(image_msg)
 
-        rospy.loginfo("Found keypoints for %d objects in %f seconds", len(bounding_boxes_detected), time.clock() - before_time)
+        rospy.loginfo("Found keypoints for %d objects in %f seconds", len(bounding_boxes_detected), time.perf_counter() - before_time)
 
 
     def get_transform(self, center, scale, res, rot=0):
@@ -339,7 +339,7 @@ class KeypointDetectorNode(object):
                 index = i * grid_size + j + self.keypoints_indices[object_type][0]
                 if index >= self.keypoints_indices[object_type][1]:
                     continue
-                print keypoints[index].shape
+                print(keypoints[index].shape)
                 combined_keypoints[i*64:(i+1)*64, j*64:(j+1)*64] = keypoints[index]
         return combined_keypoints
 

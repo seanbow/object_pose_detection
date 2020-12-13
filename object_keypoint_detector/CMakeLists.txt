@@ -1,11 +1,10 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(object_keypoint_detector)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
-
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -DEIGEN_NO_DEBUG")
 SET(CMAKE_BUILD_TYPE "Release") # Set to Debug or Release
+
+set(SETUPTOOLS_DEB_LAYOUT OFF)
 
 #IF(DEFINED ENV{ARM_ARCHITECTURE})
 #   SET(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS} -O3 -march=native") # arm
@@ -57,9 +56,7 @@ link_libraries(${catkin_LIBRARIES} ${PCL_LIBRARIES})
 # set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
 # End pose refinement packages
 
-# JF 2018-02-19: Commenting this out since python code is not in
-# correct location (i.e., src/object_keypoint_detector)
-# catkin_python_setup()
+catkin_python_setup()
 
 ###################################
 ## catkin specific configuration ##
@@ -97,22 +94,28 @@ include_directories(
 )
 
 
-## Mark executable scripts (Python etc.) for installation
-## in contrast to setup.py, you can choose the destination
-install(PROGRAMS
-  src/keypoint_detector.py
-  src/keypoint_detector_torch.py
-  src/human_mesh.py
+catkin_install_python(
+  PROGRAMS scripts/keypoint_detector.py 
+           scripts/keypoint_detector_torch.py 
+           scripts/human_mesh.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-install(DIRECTORY
-    src/models
-    DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-    )
+## Mark executable scripts (Python etc.) for installation
+## in contrast to setup.py, you can choose the destination
+# install(PROGRAMS
+#   src/keypoint_detector.py
+#   src/keypoint_detector_torch.py
+#   src/human_mesh.py
+#   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
 
 install(DIRECTORY
     models
     DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
     )
 
+install(
+  DIRECTORY keypoint_description
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+)
