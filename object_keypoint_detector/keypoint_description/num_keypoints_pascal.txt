@@ -5,8 +5,6 @@ bottle 7
 bus 12
 car 12
 chair 10
-diningtable 12
-motorbike 10
 sofa 10
 train 17
 tvmonitor 8

@@ -174,12 +174,13 @@ class KeypointDetectorNode(object):
 
             vertices_translated = pred_vertices[i, :, :] + camera_translation[i]
             marker_msg = Marker()
+            marker_msg.header.stamp = detections_msg.header.stamp
             marker_msg.header.frame_id = "zed_left_camera_optical_frame"
             marker_msg.type = Marker.TRIANGLE_LIST
             marker_msg.action = Marker.ADD
             marker_msg.ns = "human_pose_demo"
             marker_msg.id = i
-            marker_msg.lifetime = rospy.Time(2.0)
+            marker_msg.lifetime = rospy.Time(0.5)
             marker_msg.scale.x = 1
             marker_msg.scale.y = 1
             marker_msg.scale.z = 1
@@ -188,10 +189,32 @@ class KeypointDetectorNode(object):
             marker_msg.color.g = 0.74117647
             marker_msg.color.b = 0.85882353
             marker_msg.color.a = 1
-            # marker_msg.points = self.vert_faces_to_triangle_list(vertices_translated, self.smpl.faces)
-            # markers_msg.markers.append(marker_msg)
-                        
-            for joint_i in predictions:
+
+            # Get the bbox boundaries in the image coordinates
+            if (self.yolo):
+                x_min = int(floor(detection.xmin))
+                y_min = int(floor(detection.ymin))
+                x_max = int(floor(detection.xmax))
+                y_max = int(floor(detection.ymax))
+            else:
+                x_min = int(floor(detection.bbox.points[0].x))
+                y_min = int(floor(detection.bbox.points[0].y))
+                x_max = int(floor(detection.bbox.points[2].x))
+                y_max = int(floor(detection.bbox.points[2].y))
+            
+            # Assume we don't publish - CHANGE THIS TO TRUE FOR OFFLINE PROCESSING
+            publish = False
+
+            # Check bounding box
+            if (bounds[i][0] < 1) or (bounds[i][1] > 1279):
+                publish = False
+
+            # Which joints we want to be visible
+            visible_set = [0,1,2,3,4,5,6,7,8,9,10,11,18,19,20,21,22,23]
+
+            # Go through all the joints            
+            for j, joint_i in enumerate(predictions):
+                # Estimate projection in image plane
                 coords = CAMERA_FOCAL_LENGTH_LOCAL*joint_i[:2]/joint_i[2] + self.img_size/2.0
                 img_coords = [0, 0]
                 img_coords[0] = bounds[i][0] + int(1.0 * coords[0] / self.img_size * (bounds[i][1] - bounds[i][0]) + 0.5)
@@ -199,10 +222,21 @@ class KeypointDetectorNode(object):
                                     
                 cv2.circle(self.img_published, (img_coords[0], img_coords[1]), 5, (255, 0, 0), thickness=-1)
             
-            for joint_publish_i in predictions_publish:
+            for j, joint_publish_i in enumerate(predictions_publish):
                 detection_msg.x.append(joint_publish_i[0])
                 detection_msg.y.append(joint_publish_i[1])
                 detection_msg.z.append(joint_publish_i[2])
+
+                # Check if joint is required to be visible
+                if j in visible_set:
+                    # If joint is significantly outside a bbox
+                    if joint_publish_i[2] < 0.7:
+                        publish = False
+            
+            # Check and append to message if published
+            if (publish):
+                marker_msg.points = self.vert_faces_to_triangle_list(vertices_translated, self.smpl.faces)
+                markers_msg.markers.append(marker_msg)
                                                     
             keypoint_detections.detections.append(detection_msg)
 
@@ -313,9 +347,12 @@ class KeypointDetectorNode(object):
         bounds_tensor = bounds_tensor.to(self.device, dtype=torch.float32)
         with torch.no_grad():
             pred_rotmat, pred_betas, pred_camera = self.model(patches_tensor)
+            pred_betas[:] = 0.
+            pred_betas[0] = 1.
             pred_output = self.smpl(betas=pred_betas, body_pose=pred_rotmat[:,1:], global_orient=pred_rotmat[:,0].unsqueeze(1), pose2rot=False)
             pred_vertices = pred_output.vertices
             pred_joints = pred_output.joints
+            pred_joints = pred_joints[:,:24]
             
             # Figure out translations
             # One local translation, for each bounding box
