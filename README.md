@@ -1,7 +1,7 @@
 # Object Pose Detection and Semantic Mapping
 This package runs the full pipeline for object detection (based on `darknet_ros`), keypoint localization and semantic mapping.
 
-NOTE: As of now, the IMU factors are relatively untested/unsupported; it is best to use an external odometry source and the `ExternalOdometryHandler` odometry handler class (odometry_type == `external`) within the semantic slam node / launch file.
+NOTE: As of now, the IMU factors are relatively untested/unsupported; it is best to use an external odometry source and the `ExternalOdometryHandler` odometry handler class (odometry_type == `external`), or VISO-based odometry, within the semantic slam node / launch file.
 
 ## Packages
 1. The [object_keypoint_detector](object_keypoint_detector) package is used to detect keypoints on provided images.
