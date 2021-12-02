@@ -20,6 +20,8 @@ Alternatively,
 1. Build and install GTSAM: https://github.com/borglab/gtsam. Make sure GTSAM_USE_SYSTEM_EIGEN and GTSAM_TYPEDEF_POINTS_TO_VECTORS are set to true.
 
 ## Usage
+### Keypoint Detector
+Train a keypoint model with [the pytorch keypoint training code found here](https://github.com/seanbow/semantic_keypoint_training)
 ### Semantic SLAM
 1. Modify [this](https://github.com/seanbow/semantic_slam/blob/master/launch/semantic_slam.launch) launch file to:
     1. specify the path to your `num_keypoints_file` in the launch file.
