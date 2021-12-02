@@ -13,7 +13,7 @@ NOTE: As of now, the IMU factors are relatively untested/unsupported; it is best
 Scripts to install all required dependencies are available at https://github.com/seanbow/xavier-setup-scripts (contrary to the name, these scripts function correctly both on desktop- and nVidia xavier- based platforms).
 
 Alternatively,
-1. Install [ROS](https://www.ros.org/) -- only tested thus far on ROS Melodic
+1. Install [ROS](https://www.ros.org/) -- only tested thus far on ROS Melodic and Noetic
 1. `sudo apt install libgoogle-glog-dev libpng++-dev ros-melodic-rosfmt`
 1. Build and install Google's `ceres-solver` from source: https://github.com/ceres-solver/ceres-solver
     - Be sure to set `-DCMAKE_C_FLAGS="-march=native" -DCMAKE_CXX_FLAGS="-march=native"` when calling CMake or else you may run into memory alignment related issues and crashes
