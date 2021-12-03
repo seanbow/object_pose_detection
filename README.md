@@ -35,3 +35,5 @@ Train a keypoint model with [the pytorch keypoint training code found here](http
 1. Copy your models in the `models` [directory](object_keypoint_detector/models). You will need a `.pt` and a `.pkl` model.
 1. Modify [this](object_keypoint_detector/launch/human_mesh_darknet.launch) launch file to point to the right model and camera topic.
 1. Run the launch file.
+
+This technology is the subject of US Patent 11,187,536
